@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vishnu Raj | Automation × Intelligence</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#02070b;
+    color:#eafcff;
+    font-family:Arial,Helvetica,sans-serif;
+    overflow-x:hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+#canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:-3;
+}
+
+.grid{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    opacity:.18;
+
+    background-image:
+        linear-gradient(rgba(0,255,255,.08) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,255,255,.08) 1px,transparent 1px);
+
+    background-size:60px 60px;
+
+    transform:perspective(600px) rotateX(60deg) scale(2);
+    transform-origin:center bottom;
+
+    animation:gridMove 12s linear infinite;
+}
+
+@keyframes gridMove{
+    from{background-position:0 0,0 0;}
+    to{background-position:0 60px,60px 0;}
+}
+
+.glow{
+    position:fixed;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:rgba(0,255,255,.08);
+    filter:blur(100px);
+    pointer-events:none;
+    z-index:-1;
+}
+
+/* =========================
+   NAV
+========================= */
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:100;
+
+    background:rgba(2,7,11,.65);
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid rgba(0,255,255,.12);
+}
+
+.nav{
+    max-width:1200px;
+    margin:auto;
+
+    height:70px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 25px;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:#00ffff;
+}
+
+.navlinks{
+    display:flex;
+    gap:30px;
+}
+
+.navlinks a{
+    color:#9bb0ba;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+}
+
+.navlinks a:hover{
+    color:#00ffff;
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+section{
+    min-height:100vh;
+    padding:130px 7%;
+    position:relative;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.label{
+    color:#00ffff;
+    font-size:11px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    margin-bottom:20px;
+}
+
+.title{
+    font-size:clamp(45px,8vw,100px);
+    line-height:.95;
+    font-weight:800;
+}
+
+.title span{
+    color:#00ffff;
+    text-shadow:
+        0 0 15px rgba(0,255,255,.5),
+        0 0 50px rgba(0,255,255,.2);
+}
+
+.subtitle{
+    margin-top:25px;
+    max-width:650px;
+    color:#9db1ba;
+    font-size:18px;
+    line-height:1.7;
+}
+
+.btns{
+    margin-top:35px;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:14px 25px;
+    border:1px solid rgba(0,255,255,.5);
+    color:#dff;
+    text-decoration:none;
+    border-radius:6px;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#00ffff;
+    color:#001014;
+    box-shadow:0 0 30px rgba(0,255,255,.3);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    display:flex;
+    align-items:center;
+}
+
+.hero-content{
+    width:100%;
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    padding:8px 15px;
+
+    border:1px solid rgba(0,255,255,.25);
+    border-radius:30px;
+
+    color:#83b8bd;
+    font-size:12px;
+
+    margin-bottom:30px;
+}
+
+.status-dot{
+    width:8px;
+    height:8px;
+    background:#00ffff;
+    border-radius:50%;
+    box-shadow:0 0 15px #00ffff;
+
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    50%{
+        opacity:.3;
+        transform:scale(.6);
+    }
+}
+
+/* =========================
+   SYSTEM PIPELINE
+========================= */
+
+.pipeline{
+    margin-top:90px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:0;
+
+    overflow:hidden;
+}
+
+.node{
+    min-width:125px;
+    height:75px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid rgba(0,255,255,.3);
+
+    background:rgba(0,20,25,.65);
+
+    font-size:12px;
+    letter-spacing:2px;
+
+    position:relative;
+
+    box-shadow:
+        inset 0 0 30px rgba(0,255,255,.03),
+        0 0 20px rgba(0,255,255,.03);
+}
+
+.node.active{
+    border-color:#00ffff;
+    box-shadow:
+        0 0 25px rgba(0,255,255,.25),
+        inset 0 0 30px rgba(0,255,255,.08);
+}
+
+.arrow{
+    width:70px;
+    height:1px;
+    background:#00ffff;
+    position:relative;
+    opacity:.5;
+}
+
+.arrow:after{
+    content:"";
+    position:absolute;
+
+    width:8px;
+    height:8px;
+
+    border-right:1px solid #00ffff;
+    border-top:1px solid #00ffff;
+
+    transform:rotate(45deg);
+
+    right:0;
+    top:-4px;
+}
+
+.data{
+    position:absolute;
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+    background:#fff;
+
+    box-shadow:0 0 15px #00ffff;
+
+    animation:dataMove 2s linear infinite;
+}
+
+@keyframes dataMove{
+    from{
+        left:0;
+        opacity:0;
+    }
+
+    15%{
+        opacity:1;
+    }
+
+    85%{
+        opacity:1;
+    }
+
+    to{
+        left:100%;
+        opacity:0;
+    }
+}
+
+/* =========================
+   SECTION HEADINGS
+========================= */
+
+.section-head{
+    margin-bottom:60px;
+}
+
+.section-head h2{
+    font-size:clamp(38px,6vw,70px);
+}
+
+.section-head h2 span{
+    color:#00ffff;
+}
+
+.section-head p{
+    color:#738b94;
+    margin-top:15px;
+}
+
+/* =========================
+   TECHNOLOGY
+========================= */
+
+.tech-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.tech{
+    min-height:170px;
+
+    padding:25px;
+
+    border:1px solid rgba(0,255,255,.12);
+
+    background:linear-gradient(
+        145deg,
+        rgba(0,255,255,.05),
+        rgba(0,0,0,.15)
+    );
+
+    transition:.4s;
+
+    position:relative;
+    overflow:hidden;
+}
+
+.tech:hover{
+    transform:translateY(-8px);
+
+    border-color:rgba(0,255,255,.6);
+
+    box-shadow:
+        0 15px 40px rgba(0,255,255,.08);
+}
+
+.tech-icon{
+    font-size:35px;
+    margin-bottom:30px;
+}
+
+.tech h3{
+    margin-bottom:8px;
+}
+
+.tech p{
+    color:#718891;
+    font-size:13px;
+}
+
+/* =========================
+   PROJECTS
+========================= */
+
+.projects{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.project{
+    min-height:300px;
+
+    border:1px solid rgba(0,255,255,.15);
+
+    background:#061016;
+
+    padding:25px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.4s;
+}
+
+.project:before{
+    content:"";
+    position:absolute;
+
+    width:200%;
+    height:1px;
+
+    left:-50%;
+    top:0;
+
+    background:#00ffff;
+
+    box-shadow:0 0 20px #00ffff;
+
+    animation:scan 4s linear infinite;
+}
+
+@keyframes scan{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(300px);}
+}
+
+.project:hover{
+    transform:translateY(-8px);
+    border-color:#00ffff;
+}
+
+.project-number{
+    color:#00ffff;
+    font-size:11px;
+    letter-spacing:3px;
+}
+
+.project h3{
+    margin-top:45px;
+    font-size:24px;
+}
+
+.project p{
+    margin-top:15px;
+    color:#718891;
+    font-size:14px;
+}
+
+.project-link{
+    position:absolute;
+    bottom:25px;
+    color:#00ffff;
+    font-size:13px;
+}
+
+/* =========================
+   FUTURE
+========================= */
+
+.future{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.future-system{
+    width:100%;
+    max-width:1000px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    position:relative;
+}
+
+.future-line{
+    position:absolute;
+
+    left:5%;
+    right:5%;
+    top:50%;
+
+    height:1px;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #00ffff,
+        transparent
+    );
+}
+
+.future-node{
+    width:150px;
+    height:150px;
+
+    border:1px solid rgba(0,255,255,.4);
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    background:#031016;
+
+    position:relative;
+
+    z-index:2;
+
+    transition:.5s;
+}
+
+.future-node:hover{
+    transform:scale(1.15);
+
+    box-shadow:
+        0 0 50px rgba(0,255,255,.25);
+}
+
+.future-node strong{
+    display:block;
+    color:#00ffff;
+    font-size:14px;
+}
+
+.future-node small{
+    color:#78909a;
+}
+
+/* =========================
+   JOB SECTION
+========================= */
+
+.job{
+    display:flex;
+    align-items:center;
+}
+
+.job-box{
+    border:1px solid rgba(0,255,255,.2);
+
+    padding:50px;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(0,255,255,.06),
+            transparent
+        );
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.job-terminal{
+    font-family:monospace;
+
+    color:#00ffff;
+
+    font-size:15px;
+
+    line-height:2;
+
+    margin-bottom:30px;
+}
+
+.cursor{
+    animation:blink .8s infinite;
+}
+
+@keyframes blink{
+    50%{opacity:0;}
+}
+
+.job-box h2{
+    font-size:clamp(35px,5vw,65px);
+}
+
+.job-box h2 span{
+    color:#00ffff;
+}
+
+.job-box p{
+    color:#81969e;
+    max-width:650px;
+    margin-top:20px;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact{
+    min-height:70vh;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.contact h2{
+    font-size:clamp(50px,9vw,110px);
+}
+
+.contact h2 span{
+    color:#00ffff;
+}
+
+.links{
+    margin-top:40px;
+
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    padding:30px 7%;
+
+    border-top:1px solid rgba(0,255,255,.1);
+
+    color:#50646d;
+
+    display:flex;
+    justify-content:space-between;
+}
+
+/* =========================
+   SCROLL REVEAL
+========================= */
+
+.reveal{
+    opacity:0;
+    transform:translateY(50px);
+    transition:1s;
+}
+
+.reveal.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+    .navlinks{
+        display:none;
+    }
+
+    .tech-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .projects{
+        grid-template-columns:1fr;
+    }
+
+    .pipeline{
+        overflow-x:auto;
+        justify-content:flex-start;
+        padding-bottom:20px;
+    }
+
+    .future-system{
+        flex-direction:column;
+        gap:30px;
+    }
+
+    .future-line{
+        width:1px;
+        height:100%;
+        left:50%;
+        top:0;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+
+@media(max-width:550px){
+
+    section{
+        padding:110px 20px;
+    }
+
+    .tech-grid{
+        grid-template-columns:1fr;
+    }
+
+    .job-box{
+        padding:30px;
+    }
+
+    .title{
+        font-size:55px;
+    }
+
+    .subtitle{
+        font-size:16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+<div class="grid"></div>
+<div class="glow" id="glow"></div>
+
+
+<!-- NAV -->
+
+<nav>
+
+<div class="nav">
+
+<div class="logo">
+VISHNU<span>.</span>
+</div>
+
+<div class="navlinks">
+
+<a href="#home">HOME</a>
+<a href="#technology">TECH</a>
+<a href="#projects">WORK</a>
+<a href="#future">FUTURE</a>
+<a href="#contact">CONTACT</a>
+
+</div>
+
+</div>
+
+</nav>
+
+
+<!-- =========================
+ HERO
+========================= -->
+
+<section class="hero" id="home">
+
+<div class="container hero-content">
+
+<div class="status">
+<div class="status-dot"></div>
+OPEN TO BUILDING THE FUTURE
+</div>
+
+<div class="label">
+AUTOMATION × INTELLIGENCE
+</div>
+
+<h1 class="title">
+VISHNU<br>
+<span>RAJ</span>
+</h1>
+
+<p class="subtitle">
+Industrial automation evolving toward intelligent systems.
+</p>
+
+<div class="btns">
+
+<a class="btn" href="#projects">
+EXPLORE WORK →
+</a>
+
+<a class="btn" href="#contact">
+CONNECT
+</a>
+
+</div>
+
+
+<!-- PIPELINE -->
+
+<div class="pipeline">
+
+<div class="node active">
+PLC
+</div>
+
+<div class="arrow">
+<div class="data"></div>
+</div>
+
+<div class="node">
+DATA
+</div>
+
+<div class="arrow">
+<div class="data"></div>
+</div>
+
+<div class="node">
+AI
+</div>
+
+<div class="arrow">
+<div class="data"></div>
+</div>
+
+<div class="node active">
+INTELLIGENCE
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+ TECHNOLOGY
+========================= -->
+
+<section id="technology">
+
+<div class="container">
+
+<div class="section-head reveal">
+
+<div class="label">
+01 — TECHNOLOGY
+</div>
+
+<h2>
+BUILDING WITH <span>INTELLIGENCE</span>
+</h2>
+
+<p>
+The technologies behind the journey.
+</p>
+
+</div>
+
+
+<div class="tech-grid">
+
+<div class="tech reveal">
+<div class="tech-icon">⚙</div>
+<h3>PLC</h3>
+<p>Control logic & industrial systems.</p>
+</div>
+
+<div class="tech reveal">
+<div class="tech-icon">◈</div>
+<h3>Automation</h3>
+<p>Machines, sensors & processes.</p>
+</div>
+
+<div class="tech reveal">
+<div class="tech-icon">▣</div>
+<h3>HMI / SCADA</h3>
+<p>Visualization & monitoring.</p>
+</div>
+
+<div class="tech reveal">
+<div class="tech-icon">⌘</div>
+<h3>Python</h3>
+<p>Programming & intelligent tools.</p>
+</div>
+
+<div class="tech reveal">
+<div class="tech-icon">AI</div>
+<h3>Artificial Intelligence</h3>
+<p>Machines that understand data.</p>
+</div>
+
+<div class="tech reveal">
+<div class="tech-icon">ML</div>
+<h3>Machine Learning</h3>
+<p>Learning from industrial data.</p>
+</div>
+
+<div class="tech reveal">
+<div class="tech-icon">◉</div>
+<h3>Deep Learning</h3>
+<p>Vision & intelligent models.</p>
+</div>
+
+<div class="tech reveal">
+<div class="tech-icon">∞</div>
+<h3>Future Systems</h3>
+<p>Automation × intelligence.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+ PROJECTS
+========================= -->
+
+<section id="projects">
+
+<div class="container">
+
+<div class="section-head reveal">
+
+<div class="label">
+02 — SELECTED WORK
+</div>
+
+<h2>
+PROJECT <span>LAB</span>
+</h2>
+
+<p>
+Real systems. Experiments. Ideas.
+</p>
+
+</div>
+
+
+<div class="projects">
+
+<div class="project reveal">
+
+<div class="project-number">
+PROJECT_01
+</div>
+
+<h3>PLC SYSTEM</h3>
+
+<p>
+Industrial control and automation project.
+</p>
+
+<div class="project-link">
+OPEN PROJECT →
+</div>
+
+</div>
+
+
+<div class="project reveal">
+
+<div class="project-number">
+PROJECT_02
+</div>
+
+<h3>SMART AUTOMATION</h3>
+
+<p>
+Automation concept connecting machines,
+data and intelligent decisions.
+</p>
+
+<div class="project-link">
+OPEN PROJECT →
+</div>
+
+</div>
+
+
+<div class="project reveal">
+
+<div class="project-number">
+PROJECT_03
+</div>
+
+<h3>AI VISION</h3>
+
+<p>
+Exploring computer vision and intelligent
+industrial inspection.
+</p>
+
+<div class="project-link">
+OPEN PROJECT →
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+ FUTURE
+========================= -->
+
+<section id="future" class="future">
+
+<div class="container">
+
+<div class="section-head reveal">
+
+<div class="label">
+03 — FUTURE
+</div>
+
+<h2>
+FROM <span>AUTOMATION</span><br>
+TO INTELLIGENCE
+</h2>
+
+</div>
+
+
+<div class="future-system reveal">
+
+<div class="future-line"></div>
+
+
+<div class="future-node">
+<div>
+<strong>01</strong>
+<small>AUTOMATION</small>
+</div>
+</div>
+
+<div class="future-node">
+<div>
+<strong>02</strong>
+<small>DATA</small>
+</div>
+</div>
+
+<div class="future-node">
+<div>
+<strong>03</strong>
+<small>AI / ML</small>
+</div>
+</div>
+
+<div class="future-node">
+<div>
+<strong>04</strong>
+<small>SMART SYSTEMS</small>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+ JOB / OPPORTUNITY
+========================= -->
+
+<section class="job">
+
+<div class="container">
+
+<div class="job-box reveal">
+
+<div class="job-terminal">
+&gt; SYSTEM STATUS: <span style="color:#00ff88">ONLINE</span><br>
+&gt; MODE: BUILD<br>
+&gt; MISSION: LEARN → CREATE → SOLVE<br>
+&gt; STATUS: <span class="cursor">_</span>
+</div>
+
+<h2>
+LOOKING FOR<br>
+<span>THE NEXT CHALLENGE.</span>
+</h2>
+
+<p>
+Open to opportunities where automation,
+engineering and intelligent technologies
+can be turned into real-world solutions.
+</p>
+
+<div class="btns">
+
+<a class="btn" href="#contact">
+LET'S CONNECT →
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+ CONTACT
+========================= -->
+
+<section class="contact" id="contact">
+
+<div class="container">
+
+<div class="label reveal">
+04 — CONTACT
+</div>
+
+<h2 class="reveal">
+LET'S BUILD<br>
+<span>WHAT'S NEXT.</span>
+</h2>
+
+<div class="links reveal">
+
+<a class="btn" href="mailto:YOUR_EMAIL@example.com">
+EMAIL
+</a>
+
+<a class="btn" href="https://github.com/vishnuraj1997">
+GITHUB
+</a>
+
+<a class="btn" href="#">
+LINKEDIN
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<footer>
+
+<div>
+VISHNU RAJ
+</div>
+
+<div>
+AUTOMATION × INTELLIGENCE
+</div>
+
+</footer>
+
+
+<script>
+
+/* ==========================================
+   PARTICLE / DATA NETWORK
+========================================== */
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+
+function resize(){
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+}
+
+resize();
+
+window.addEventListener("resize",resize);
+
+
+class Particle{
+
+    constructor(){
+
+        this.x=Math.random()*canvas.width;
+        this.y=Math.random()*canvas.height;
+
+        this.vx=(Math.random()-.5)*.35;
+        this.vy=(Math.random()-.5)*.35;
+
+        this.size=Math.random()*1.8+.5;
+
+    }
+
+    update(){
+
+        this.x+=this.vx;
+        this.y+=this.vy;
+
+        if(this.x<0||this.x>canvas.width)
+            this.vx*=-1;
+
+        if(this.y<0||this.y>canvas.height)
+            this.vy*=-1;
+
+    }
+
+    draw(){
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.x,
+            this.y,
+            this.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fillStyle="rgba(0,255,255,.6)";
+
+        ctx.fill();
+
+    }
+
+}
+
+
+for(let i=0;i<100;i++){
+
+    particles.push(new Particle());
+
+}
+
+
+function animate(){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    for(let p of particles){
+
+        p.update();
+        p.draw();
+
+    }
+
+
+    for(let i=0;i<particles.length;i++){
+
+        for(let j=i+1;j<particles.length;j++){
+
+            let a=particles[i];
+            let b=particles[j];
+
+            let dx=a.x-b.x;
+            let dy=a.y-b.y;
+
+            let distance=Math.sqrt(dx*dx+dy*dy);
+
+            if(distance<120){
+
+                ctx.beginPath();
+
+                ctx.moveTo(a.x,a.y);
+                ctx.lineTo(b.x,b.y);
+
+                ctx.strokeStyle=
+                    `rgba(0,255,255,${.08*(1-distance/120)})`;
+
+                ctx.stroke();
+
+            }
+
+        }
+
+    }
+
+    requestAnimationFrame(animate);
+
+}
+
+animate();
+
+
+/* ==========================================
+   MOUSE GLOW
+========================================== */
+
+const glow=document.getElementById("glow");
+
+document.addEventListener("mousemove",(e)=>{
+
+    glow.style.left=(e.clientX-250)+"px";
+    glow.style.top=(e.clientY-250)+"px";
+
+});
+
+
+/* ==========================================
+   SCROLL REVEAL
+========================================== */
+
+const observer=new IntersectionObserver(
+
+(entries)=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+            entry.target.classList.add("show");
+
+        }
+
+    });
+
+},
+
+{
+    threshold:.15
+}
+
+);
+
+
+document
+.querySelectorAll(".reveal")
+.forEach(el=>observer.observe(el));
+
+
+/* ==========================================
+   ACTIVE PIPELINE ANIMATION
+========================================== */
+
+const nodes=document.querySelectorAll(".node");
+
+let active=0;
+
+setInterval(()=>{
+
+    nodes.forEach(n=>n.classList.remove("active"));
+
+    nodes[active].classList.add("active");
+
+    active++;
+
+    if(active>=nodes.length)
+        active=0;
+
+},1000);
+
+</script>
+
+</body>
+</html>
